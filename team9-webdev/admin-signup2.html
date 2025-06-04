@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Signup Step 2 - E-Service Barangay Portal</title>
+    <link rel="stylesheet" href="auth-style.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-left">
+            <div class="illustration">
+                <div class="admin-figure">
+                    <div class="person">👨‍💼</div>
+                    <div class="laptop">💻</div>
+                </div>
+                <div class="floating-elements">
+                    <div class="element element-1">📊</div>
+                    <div class="element element-2">⚙️</div>
+                    <div class="element element-3">📋</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="auth-right">
+            <div class="auth-form-container">
+                <div class="portal-badge">
+                    <span class="badge-icon">🏛️</span>
+                    E-Service Admin Portal
+                </div>
+                
+                <div class="form-header">
+                    <h2>Admin Sign up Part 2</h2>
+                    <p class="step-indicator">Step 2 of 2</p>
+                </div>
+                
+                <form class="auth-form">
+                    <div class="form-group">
+                        <label>Barangay Official ID Number:</label>
+                        <input type="text" placeholder="Enter your official document number" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Input your official document:</label>
+                        <div class="file-upload">
+                            <input type="file" id="document" accept=".pdf,.jpg,.png" required>
+                            <label for="document" class="file-label">Choose File</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Barangay Official Position:</label>
+                        <select required>
+                            <option value="">Select Position</option>
+                            <option value="captain">Barangay Captain</option>
+                            <option value="councilor">Barangay Councilor</option>
+                            <option value="secretary">Barangay Secretary</option>
+                            <option value="treasurer">Barangay Treasurer</option>
+                            <option value="clerk">Barangay Clerk</option>
+                        </select>
+                    </div>
+                    
+                    <button type="button" class="btn btn-primary" onclick="completeSignup()">Sign Up</button>
+                </form>
+                
+                <div class="auth-footer">
+                    <a href="admin-signup.html" class="back-link">← Back to Step 1</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .step-indicator {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #374151;
+            font-weight: 500;
+        }
+        
+        .file-upload {
+            position: relative;
+        }
+        
+        .file-upload input[type="file"] {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        
+        .file-label {
+            display: block;
+            padding: 1rem;
+            border: 2px dashed #e2e8f0;
+            border-radius: 8px;
+            text-align: center;
+            color: #64748b;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .file-label:hover {
+            border-color: #3b82f6;
+            color: #3b82f6;
+        }
+        
+        select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: #f8fafc;
+            color: #374151;
+        }
+        
+        select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            background: white;
+        }
+    </style>
+
+    <script>
+        function completeSignup() {
+            window.location.href = 'admin-success.html';
+        }
+    </script>
+</body>
+</html>
