@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signup - E-Service Barangay Portal</title>
+  <link rel="stylesheet" href="auth-style.css" />
+  <style>
+    .input-error {
+      border: 1px solid red;
+    }
+    .toggle-eye {
+      cursor: pointer;
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    .form-group.password-wrapper {
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-container">
+    <!-- Left Illustration -->
+    <div class="auth-left">
+      <div class="illustration">
+        <div class="admin-figure">
+          <div class="person">👨‍💼</div>
+          <div class="laptop">💻</div>
+        </div>
+        <div class="floating-elements">
+          <div class="element element-1">📊</div>
+          <div class="element element-2">⚙️</div>
+          <div class="element element-3">📋</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Form -->
+    <div class="auth-right">
+      <div class="auth-form-container">
+        <div class="portal-badge">
+          <span class="badge-icon">🏛️</span>
+          E-Service Barangay Portal
+        </div>
+
+        <div class="form-header">
+          <h2>Sign up</h2>
+          <div class="auth-tabs">
+            <button class="tab-btn" onclick="window.location.href='login.html'">Log in</button>
+            <button class="tab-btn active">Sign up</button>
+          </div>
+        </div>
+
+        <form class="auth-form" id="signupForm" method="post" action="signup.php">
+          <div class="form-group"><input type="text" name="lastname" placeholder="Last Name" required /></div>
+          <div class="form-group"><input type="text" name="firstname" placeholder="First Name" required /></div>
+          <div class="form-group"><input type="text" name="middlename" placeholder="Middle Name" required /></div>
+          <div class="form-group"><input type="number" name="age" placeholder="Age" min="1" id="age" required oninput="validateAge(this)" onkeypress="return event.charCode >= 48 && event.charCode <= 57" /></div>
+          <div class="form-group"><input type="date" name="birthday" id="birthday" required /></div>
+          <div class="form-group"><input type="text" name="address" placeholder="Address" required /></div>
+          <div class="form-group"><input type="email" name="email" placeholder="Email or phone number" required /></div>
+
+          <!-- Password Field -->
+          <div class="form-group password-wrapper">
+            <input type="password" name="password" id="password" placeholder="Password" required />
+            <span class="toggle-eye" onclick="togglePassword('password')">👁️</span>
+          </div>
+
+          <!-- Confirm Password -->
+          <div class="form-group password-wrapper">
+            <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password" required />
+            <span class="toggle-eye" onclick="togglePassword('confirm_password')">👁️</span>
+          </div>
+
+          <div class="form-group-1">
+            <label>Barangay Official Or Citizen:</label>
+            <select name="role" required>
+              <option value="">Select</option>
+              <option value="brgy-official">Barangay Official</option>
+              <option value="citizen">Citizen</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn btn-primary" onclick="validateForm()">Next</button>
+        </form>
+
+        <div class="auth-footer">
+          <a href="login.html" class="back-link">← Back to Login</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Restrict birthday to today or earlier
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById("birthday").setAttribute("max", today);
+
+    // Password visibility toggle
+    function togglePassword(id) {
+      const field = document.getElementById(id);
+      field.type = field.type === "password" ? "text" : "password";
+    
+
+    // Form validation
+    function validateForm() {
+      const form = document.getElementById("signupForm");
+      const password = document.getElementById("password");
+      const confirmPassword = document.getElementById("confirm_password");
+      let isValid = true;
+    }
+      // Reset all input-error styles
+      form.querySelectorAll("input, select").forEach(input => {
+        input.classList.remove("input-error");
+        if (!input.value.trim()) {
+          input.classList.add("input-error");
+          isValid = false;
+        }
+      });
+
+      if (!isValid) {
+        alert("Please fill in all required fields.");
+        return;
+      }
+
+      // Check if passwords match
+      if (password.value !== confirmPassword.value) {
+        password.classList.add("input-error");
+        confirmPassword.classList.add("input-error");
+        alert("Passwords do not match!");
+        return;
+      }
+
+      // If everything is valid
+      form.submit();
+    }
+  </script>
+</body>
+</html>
