@@ -403,6 +403,145 @@
             padding: 1rem;
             font-size: 0.9rem;
         }
+        .notification-section {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .notification-section h4 {
+            color: #166534;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .notification-section h4::before {
+            content: "📱";
+            font-size: 1.5rem;
+        }
+        .notification-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .notification-option {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            background: white;
+            border: 1px solid #bbf7d0;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .notification-option:hover {
+            background: #f0fdf4;
+            border-color: #16a34a;
+        }
+        .notification-option.selected {
+            border-color: #16a34a;
+            box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.2);
+        }
+        .notification-option input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #16a34a;
+            cursor: pointer;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .notification-option-content {
+            flex: 1;
+        }
+
+        .notification-option-content h5 {
+            color: #166534;
+            margin-bottom: 0.25rem;
+            font-size: 1rem;
+        }
+
+        .notification-option-content p {
+            color: #15803d;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .contact-input-group {
+            display: none;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px dashed #bbf7d0;
+        }
+
+        .contact-input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #166534;
+            font-weight: 600;
+        }
+
+        .contact-input-group input[type="email"],
+        .contact-input-group input[type="tel"] {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #bbf7d0;
+            border-radius: 6px;
+            font-size: 1rem;
+            color: #334155;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .contact-input-group input[type="email"]:focus,
+        .contact-input-group input[type="tel"]:focus {
+            outline: none;
+            border-color: #16a34a;
+            box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.2);
+        }
+
+        .notification-save-btn {
+            background: linear-gradient(135deg, #16a34a 0%, #34d399 100%);
+            color: white;
+            padding: 10px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .notification-save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(52, 211, 153, 0.4);
+        }
+        .notification-status {
+            margin-top: 1rem;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            text-align: center;
+            display: none;
+        }
+        .notification-status.success {
+            background-color: #dcfce7;
+            color: #16a34a;
+            border: 1px solid #16a34a;
+        }
+        .notification-status.error {
+            background-color: #fee2e2;
+            color: #ef4444;
+            border: 1px solid #ef4444;
+        }
+
 
         @media (max-width: 768px) {
             .header-content {
@@ -486,6 +625,8 @@
                                 <p><strong>Ref No:</strong> 202400001</p>
                                 <p><strong>Date of Request:</strong> 12/05/2024</p>
                                 <p><strong>Time of Request:</strong> <span id="timeOfRequest"></span></p>
+                                <p><strong>Approved by:</strong> Mr Bean - Kagawad</p>
+
                             </div>
                             <div class="request-status">
                                 <div class="status-badge processing">Processing</div>
@@ -494,60 +635,96 @@
                     </div>
 
                     <div class="tracking-section">
-                        <h3>Track Your Progress</h3>
+                        <div class="notification-section">
+                            <h4>Get Status Updates</h4>
+                            <p style="color: #15803d; margin-bottom: 1.5rem;">Stay informed about your request progress. Choose how you'd like to receive notifications:</p>
+                            
+                            <div class="notification-options">
+                                <div class="notification-option" id="emailOption" onclick="toggleNotificationOption('email')">
+                                    <input type="checkbox" id="emailNotifications" onchange="handleNotificationChange('email')" checked>
+                                    <div class="notification-option-content">
+                                        <h5>📧 Email Notifications</h5>
+                                        <p>Get updates sent directly to your email inbox</p>
+                                        <div class="contact-input-group" id="emailInputGroup">
+                                            <label for="emailAddress">Email Address:</label>
+                                            <input type="email" id="emailAddress" placeholder="Enter your email address" value="juan.delacruz@gmail.com">
+                                        </div>
+                                    </div>
+                                </div>
 
-                        <div class="progress-tracker">
-                            <div class="progress-line" style="top: 60px; height: 76px;"></div>
-                            <div class="progress-line" style="top: calc(60px + 76px); height: 76px;"></div>
-                            <div class="progress-line" style="top: calc(60px + 2 * 76px); height: 76px;"></div>
-                            <div class="progress-line" style="top: calc(60px + 3 * 76px); height: 76px;"></div>
-                            <div class="progress-line" style="top: calc(60px + 4 * 76px); height: 76px;"></div>
-
-                            <div class="progress-step completed">
-                                <div class="step-icon">📝</div>
-                                <div class="step-content">
-                                    <h4>Request Submitted</h4>
-                                    <p>Your request has been successfully submitted</p>
-                                    <span class="step-date">12/05/2024</span>
+                                <div class="notification-option" id="smsOption" onclick="toggleNotificationOption('sms')">
+                                    <input type="checkbox" id="smsNotifications" onchange="handleNotificationChange('sms')">
+                                    <div class="notification-option-content">
+                                        <h5>📱 SMS Notifications</h5>
+                                        <p>Receive instant text message updates on your phone</p>
+                                        <div class="contact-input-group" id="smsInputGroup">
+                                            <label for="phoneNumber">Mobile Number:</label>
+                                            <input type="tel" id="phoneNumber" placeholder="Enter your mobile number (e.g., +63 912 345 6789)" value="+63 912 345 6789">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="progress-step completed">
-                                <div class="step-icon">⏳</div>
-                                <div class="step-content">
-                                    <h4>Under Review</h4>
-                                    <p>Your request is being reviewed by our team</p>
-                                    <span class="step-date">In Progress</span>
-                                </div>
-                            </div>
+                            <button class="notification-save-btn btn-primary" onclick="saveNotificationPreferences()">
+                                💾 Save Notification Preferences
+                            </button>
 
-                            <div class="progress-step completed">
-                                <div class="step-icon">✅</div>
-                                <div class="step-content">
-                                    <h4>Approved</h4>
-                                    <p>Your request has been approved</p>
-                                    <span class="step-date">Pending</span>
-                                </div>
-                            </div>
+                            <div class="notification-status" id="notificationStatus"></div>
+                        </div>
 
-                            <div class="progress-step completed">
-                                <div class="step-icon">📦</div>
-                                <div class="step-content">
-                                    <h4>Ready for Pickup</h4>
-                                    <p>Your document is ready for collection</p>
-                                    <span class="step-date">Pending</span>
-                                </div>
-                            </div>
+                    <h3>Track Your Progress</h3>
+                    <div class="progress-tracker">
+                        <div class="progress-line" style="top: 60px; height: 76px;"></div>
+                        <div class="progress-line" style="top: calc(60px + 76px); height: 76px;"></div>
+                        <div class="progress-line" style="top: calc(60px + 2 * 76px); height: 76px;"></div>
+                        <div class="progress-line" style="top: calc(60px + 3 * 76px); height: 76px;"></div>
+                        <div class="progress-line" style="top: calc(60px + 4 * 76px); height: 76px;"></div>
 
-                            <div class="progress-step active">
-                                <div class="step-icon">📄</div>
-                                <div class="step-content">
-                                    <h4>Document Collected</h4>
-                                    <p>Your document has been successfully picked up.</p>
-                                    <span class="step-date">12/10/2024</span>
-                                </div>
+                        <div class="progress-step completed">
+                            <div class="step-icon">📝</div>
+                            <div class="step-content">
+                                <h4>Request Submitted</h4>
+                                <p>Your request has been successfully submitted</p>
+                                <span class="step-date">12/05/2024</span>
                             </div>
                         </div>
+
+                        <div class="progress-step completed">
+                            <div class="step-icon">⏳</div>
+                            <div class="step-content">
+                                <h4>Under Review</h4>
+                                <p>Your request is being reviewed by our team</p>
+                                <span class="step-date">In Progress</span>
+                            </div>
+                        </div>
+
+                        <div class="progress-step completed">
+                            <div class="step-icon">✅</div>
+                            <div class="step-content">
+                                <h4>Approved</h4>
+                                <p>Your request has been approved</p>
+                                <span class="step-date">Pending</span>
+                            </div>
+                        </div>
+
+                        <div class="progress-step completed">
+                            <div class="step-icon">📦</div>
+                            <div class="step-content">
+                                <h4>Ready for Pickup</h4>
+                                <p>Your document is ready for collection</p>
+                                <span class="step-date">Pending</span>
+                            </div>
+                        </div>
+
+                        <div class="progress-step active">
+                            <div class="step-icon">📄</div>
+                            <div class="step-content">
+                                <h4>Document Collected</h4>
+                                <p>Your document has been successfully picked up.</p>
+                                <span class="step-date">12/10/2024</span>
+                            </div>
+                        </div>
+                    </div>
 
                         <div class="payment-section">
                             <h4>Payment Details for Request 202400001</h4>
@@ -684,13 +861,76 @@
                 minute: 'numeric',
                 second: 'numeric',
                 hour12: true,
-                timeZone: 'America/Los_Angeles'
+                timeZone: 'Asia/Manila'
             };
-            const pstTime = date.toLocaleString('en-US', options);
-            document.getElementById('timeOfRequest').innerText = pstTime;
+            const phTime = date.toLocaleString('en-US', options);
+            document.getElementById('timeOfRequest').innerText = phTime;
         }
 
-        document.addEventListener('DOMContentLoaded', setTimeOfRequestInPST);
+        function toggleNotificationOption(type) {
+            const checkbox = document.getElementById(`${type}Notifications`);
+            const optionDiv = document.getElementById(`${type}Option`);
+
+            checkbox.checked = !checkbox.checked;
+
+            handleNotificationChange(type);
+        }
+
+        function handleNotificationChange(type) {
+            const checkbox = document.getElementById(`${type}Notifications`);
+            const inputGroup = document.getElementById(`${type}InputGroup`);
+            const optionDiv = document.getElementById(`${type}Option`);
+
+            if (checkbox.checked) {
+                inputGroup.style.display = 'block';
+                optionDiv.classList.add('selected');
+            } else {
+                inputGroup.style.display = 'none';
+                optionDiv.classList.remove('selected');
+            }
+        }
+
+        function saveNotificationPreferences() {
+            const emailChecked = document.getElementById('emailNotifications').checked;
+            const smsChecked = document.getElementById('smsNotifications').checked;
+            const emailAddress = document.getElementById('emailAddress').value;
+            const phoneNumber = document.getElementById('phoneNumber').value;
+            const notificationStatus = document.getElementById('notificationStatus');
+
+            let message = '';
+            let isError = false;
+
+            if (emailChecked && !emailAddress) {
+                message = 'Please enter your email address for email notifications.';
+                isError = true;
+            } else if (smsChecked && !phoneNumber) {
+                message = 'Please enter your mobile number for SMS notifications.';
+                isError = true;
+            } else if (!emailChecked && !smsChecked) {
+                 message = 'Please select at least one notification method.';
+                 isError = true;
+            } else {
+                message = 'Notification preferences saved successfully!';
+                console.log('Email Notifications:', emailChecked, 'Email:', emailAddress);
+                console.log('SMS Notifications:', smsChecked, 'Phone:', phoneNumber);
+            }
+
+            notificationStatus.innerText = message;
+            notificationStatus.className = 'notification-status';
+            notificationStatus.classList.add(isError ? 'error' : 'success');
+            notificationStatus.style.display = 'block';
+
+            setTimeout(() => {
+                notificationStatus.style.display = 'none';
+            }, 5000);
+        }
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeOfRequestInPST();
+            handleNotificationChange('email');
+            handleNotificationChange('sms');
+        });
     </script>
 </body>
 </html>
