@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>E-Service Barangay Portal - Document Pickup Appointment</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f5f7fa;
+        min-height: 100vh;
+      }
+
+      /* Header */
+      .header {
+        background: linear-gradient(135deg, #2d8659 0%, #4a90e2 100%);
+        color: white;
+        padding: 15px 0;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+      }
+
+      .logo {
+        font-size: 20px;
+        font-weight: bold;
+        flex: 0 0 auto;
+      }
+
+      .nav-center {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+      }
+
+      .nav-menu {
+        display: flex;
+        list-style: none;
+        gap: 40px;
+        margin: 0;
+        padding: 0;
+      }
+
+      .nav-menu a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        transition: opacity 0.3s;
+        white-space: nowrap;
+      }
+
+      .nav-menu a:hover {
+        opacity: 0.8;
+      }
+
+      .logout-btn {
+        padding: 8px 15px;
+        border-radius: 5px;
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        transition: background 0.3s;
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .logout-btn:hover {
+        background: #357abd;
+      }
+
+      /* Main Content */
+      .main-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 30px 20px;
+      }
+
+      .page-header {
+        background: linear-gradient(135deg, #2d8659 0%, #4a90e2 100%);
+        color: white;
+        padding: 30px;
+        border-radius: 10px 10px 0 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .page-title {
+        font-size: 32px;
+        font-weight: bold;
+      }
+
+      .breadcrumb {
+        background: rgba(255, 255, 255, 0.2);
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-size: 14px;
+      }
+
+      .content-card {
+        background: white;
+        border-radius: 0 0 10px 10px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .form-section {
+        padding: 30px;
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+      }
+
+      .form-column {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .form-group label {
+        font-weight: 600;
+        color: #2c3e50;
+        font-size: 14px;
+      }
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        padding: 12px;
+        border: 2px solid #e1e8ed;
+        border-radius: 8px;
+        font-size: 14px;
+        background: white;
+        transition: border-color 0.3s;
+      }
+
+      .form-group input:focus,
+      .form-group select:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: #4a90e2;
+        box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+      }
+
+      .form-group textarea {
+        resize: vertical;
+        min-height: 100px;
+      }
+
+      .required {
+        color: #e74c3c;
+      }
+
+      .info-card {
+        background: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 25px;
+      }
+
+      .info-card h3 {
+        color: #2d8659;
+        margin-bottom: 15px;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .info-card ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .info-card li {
+        padding: 8px 0;
+        border-bottom: 1px solid #e9ecef;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .info-card li:last-child {
+        border-bottom: none;
+      }
+
+      .status-badge {
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+
+      .status-ready {
+        background: #d4edda;
+        color: #155724;
+      }
+
+      .status-processing {
+        background: #fff3cd;
+        color: #856404;
+      }
+
+      .appointment-slots {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .time-slot {
+        padding: 12px;
+        border: 2px solid #e1e8ed;
+        border-radius: 8px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s;
+        background: white;
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .time-slot:hover {
+        border-color: #4a90e2;
+        background: #f8f9fa;
+      }
+
+      .time-slot.selected {
+        background: linear-gradient(135deg, #2d8659 0%, #4a90e2 100%);
+        color: white;
+        border-color: transparent;
+      }
+
+      .time-slot.unavailable {
+        background: #f8d7da;
+        color: #721c24;
+        cursor: not-allowed;
+        opacity: 0.6;
+      }
+
+      .time-slot.unavailable:hover {
+        border-color: #e1e8ed;
+        background: #f8d7da;
+      }
+
+      .form-actions {
+        display: flex;
+        gap: 15px;
+        justify-content: flex-end;
+        padding: 25px 30px;
+        background: #f8f9fa;
+        border-top: 1px solid #e5e5e5;
+      }
+
+      .btn {
+        padding: 12px 25px;
+        border: none;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #2d8659 0%, #4a90e2 100%);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+      }
+
+      .btn-secondary {
+        background: #6c757d;
+        color: white;
+      }
+
+      .btn-secondary:hover {
+        background: #5a6268;
+      }
+
+      .calendar-container {
+        position: relative;
+      }
+
+      .calendar-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 5px;
+        margin-top: 10px;
+      }
+
+      .calendar-header {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 5px;
+        margin-bottom: 10px;
+      }
+
+      .calendar-day-header {
+        padding: 8px;
+        text-align: center;
+        font-weight: 600;
+        color: #6c757d;
+        font-size: 12px;
+      }
+
+      .calendar-day {
+        padding: 10px;
+        text-align: center;
+        border: 1px solid #e1e8ed;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.3s;
+        background: white;
+        font-size: 14px;
+      }
+
+      .calendar-day:hover {
+        background: #f8f9fa;
+        border-color: #4a90e2;
+      }
+
+      .calendar-day.selected {
+        background: linear-gradient(135deg, #2d8659 0%, #4a90e2 100%);
+        color: white;
+        border-color: transparent;
+      }
+
+      .calendar-day.disabled {
+        background: #f8f9fa;
+        color: #ced4da;
+        cursor: not-allowed;
+      }
+
+      .calendar-day.other-month {
+        color: #ced4da;
+      }
+
+      .summary-section {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        margin-top: 20px;
+      }
+
+      .summary-section h4 {
+        color: #2c3e50;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .summary-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px solid #dee2e6;
+      }
+
+      .summary-item:last-child {
+        border-bottom: none;
+        font-weight: 600;
+        color: #2d8659;
+      }
+
+      @media (max-width: 768px) {
+        .nav-menu {
+          display: none;
+        }
+
+        .form-grid {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+
+        .appointment-slots {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .form-actions {
+          flex-direction: column;
+        }
+
+        .calendar-grid,
+        .calendar-header {
+          gap: 2px;
+        }
+
+        .calendar-day {
+          padding: 8px 4px;
+          font-size: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="nav-container">
+        <div class="logo">E-Service Barangay Portal</div>
+        <div class="nav-center">
+          <nav>
+            <ul class="nav-menu">
+              <li><a href="homepage.html">Home Page</a></li>
+              <li><a href="announcement.html">Announcement</a></li>
+              <li><a href="about_us.html">About Us</a></li>
+              <li><a href="#request">My Request</a></li>
+            </ul>
+          </nav>
+        </div>
+        <a href="index.html" class="logout-btn">🚪 Log Out</a>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-container">
+      <div class="page-header">
+        <h1 class="page-title">Document Pickup Appointment</h1>
+        <div class="breadcrumb">E-Service Barangay Portal</div>
+      </div>
+
+      <div class="content-card">
+        <div class="form-section">
+          <!-- Ready Documents Info -->
+          <div class="info-card">
+            <h3>📋 Documents Ready for Pickup</h3>
+            <ul id="readyDocuments">
+              <li>
+                <span>Certificate of Residency (#TXN-2024-001)</span>
+                <span class="status-badge status-ready">Ready</span>
+              </li>
+              <li>
+                <span>Marriage Certificate (#TXN-2024-006)</span>
+                <span class="status-badge status-ready">Ready</span>
+              </li>
+              <li>
+                <span>Death Certificate (#TXN-2024-007)</span>
+                <span class="status-badge status-ready">Ready</span>
+              </li>
+            </ul>
+          </div>
+
+          <form id="appointmentForm">
+            <div class="form-grid">
+              <!-- Left Column -->
+              <div class="form-column">
+                <div class="form-group">
+                  <label for="fullName"
+                    >Full Name <span class="required">*</span></label
+                  >
+                  <input
+                    type="text"
+                    id="fullName"
+                    name="fullName"
+                    required
+                    placeholder="Enter your full name"
+                    value="Juan Dela Cruz"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="contactNumber"
+                    >Contact Number <span class="required">*</span></label
+                  >
+                  <input
+                    type="tel"
+                    id="contactNumber"
+                    name="contactNumber"
+                    required
+                    placeholder="+63 9XX XXX XXXX"
+                    value="+63 912 345 6789"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="email">Email Address</label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="your.email@example.com"
+                    value="juan.delacruz@email.com"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="documents"
+                    >Documents to Pickup <span class="required">*</span></label
+                  >
+                  <select
+                    id="documents"
+                    name="documents"
+                    required
+                    onchange="updateSelectedDocuments()"
+                  >
+                    <option value="">Select documents</option>
+                    <option value="TXN-2024-001">
+                      Certificate of Residency (#TXN-2024-001)
+                    </option>
+                    <option value="TXN-2024-006">
+                      Marriage Certificate (#TXN-2024-006)
+                    </option>
+                    <option value="TXN-2024-007">
+                      Death Certificate (#TXN-2024-007)
+                    </option>
+                    <option value="multiple">Multiple Documents</option>
+                  </select>
+                </div>
+
+                <div
+                  class="form-group"
+                  id="multipleDocsGroup"
+                  style="display: none"
+                >
+                  <label>Select Multiple Documents:</label>
+                  <div
+                    style="
+                      display: flex;
+                      flex-direction: column;
+                      gap: 8px;
+                      margin-top: 8px;
+                    "
+                  >
+                    <label
+                      style="
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                        font-weight: normal;
+                      "
+                    >
+                      <input
+                        type="checkbox"
+                        name="multiDocs"
+                        value="TXN-2024-001"
+                      />
+                      Certificate of Residency (#TXN-2024-001)
+                    </label>
+                    <label
+                      style="
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                        font-weight: normal;
+                      "
+                    >
+                      <input
+                        type="checkbox"
+                        name="multiDocs"
+                        value="TXN-2024-006"
+                      />
+                      Marriage Certificate (#TXN-2024-006)
+                    </label>
+                    <label
+                      style="
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                        font-weight: normal;
+                      "
+                    >
+                      <input
+                        type="checkbox"
+                        name="multiDocs"
+                        value="TXN-2024-007"
+                      />
+                      Death Certificate (#TXN-2024-007)
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Column -->
+              <div class="form-column">
+                <div class="form-group">
+                  <label for="appointmentDate"
+                    >Preferred Date <span class="required">*</span></label
+                  >
+                  <input
+                    type="date"
+                    id="appointmentDate"
+                    name="appointmentDate"
+                    required
+                    onchange="updateTimeSlots()"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label
+                    >Available Time Slots <span class="required">*</span></label
+                  >
+                  <div class="appointment-slots" id="timeSlots">
+                    <div class="time-slot" data-time="08:00">8:00 AM</div>
+                    <div class="time-slot" data-time="09:00">9:00 AM</div>
+                    <div class="time-slot" data-time="10:00">10:00 AM</div>
+                    <div class="time-slot" data-time="11:00">11:00 AM</div>
+                    <div class="time-slot" data-time="13:00">1:00 PM</div>
+                    <div class="time-slot" data-time="14:00">2:00 PM</div>
+                    <div class="time-slot" data-time="15:00">3:00 PM</div>
+                    <div class="time-slot" data-time="16:00">4:00 PM</div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="purpose">Purpose/Reason</label>
+                  <textarea
+                    id="purpose"
+                    name="purpose"
+                    placeholder="Optional: Specify the purpose for document pickup"
+                  ></textarea>
+                </div>
+
+                <div class="form-group">
+                  <label for="representative">Authorized Representative</label>
+                  <input
+                    type="text"
+                    id="representative"
+                    name="representative"
+                    placeholder="Leave blank if picking up personally"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Appointment Summary -->
+            <div
+              class="summary-section"
+              id="appointmentSummary"
+              style="display: none"
+            >
+              <h4>📅 Appointment Summary</h4>
+              <div class="summary-item">
+                <span>Name:</span>
+                <span id="summaryName">-</span>
+              </div>
+              <div class="summary-item">
+                <span>Date:</span>
+                <span id="summaryDate">-</span>
+              </div>
+              <div class="summary-item">
+                <span>Time:</span>
+                <span id="summaryTime">-</span>
+              </div>
+              <div class="summary-item">
+                <span>Documents:</span>
+                <span id="summaryDocuments">-</span>
+              </div>
+              <div class="summary-item">
+                <span>Contact:</span>
+                <span id="summaryContact">-</span>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" onclick="resetForm()">
+            🔄 Reset Form
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            onclick="submitAppointment(event)"
+          >
+            📅 Book Appointment
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Set minimum date to tomorrow
+      function setMinDate() {
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const tomorrowString = tomorrow.toISOString().split("T")[0];
+
+        const maxDate = new Date();
+        maxDate.setDate(maxDate.getDate() + 30); // 30 days from now
+        const maxDateString = maxDate.toISOString().split("T")[0];
+
+        document
+          .getElementById("appointmentDate")
+          .setAttribute("min", tomorrowString);
+        document
+          .getElementById("appointmentDate")
+          .setAttribute("max", maxDateString);
+      }
+
+      // Initialize form when page loads
+      document.addEventListener("DOMContentLoaded", function () {
+        setMinDate();
+        updateAppointmentSummary();
+      });
+
+      // Update selected documents display
+      function updateSelectedDocuments() {
+        const select = document.getElementById("documents");
+        const multiGroup = document.getElementById("multipleDocsGroup");
+
+        if (select.value === "multiple") {
+          multiGroup.style.display = "block";
+        } else {
+          multiGroup.style.display = "none";
+          // Clear multiple checkboxes
+          document
+            .querySelectorAll('input[name="multiDocs"]')
+            .forEach((cb) => (cb.checked = false));
+        }
+        updateAppointmentSummary();
+      }
+
+      // Update time slots based on selected date
+      function updateTimeSlots() {
+        const selectedDate = document.getElementById("appointmentDate").value;
+        const timeSlots = document.querySelectorAll(".time-slot");
+
+        if (!selectedDate) return;
+
+        const selected = new Date(selectedDate);
+        const dayOfWeek = selected.getDay();
+
+        // Simulate unavailable slots (random for demo)
+        const unavailableSlots = ["09:00", "14:00"]; // Example unavailable times
+
+        timeSlots.forEach((slot) => {
+          const time = slot.getAttribute("data-time");
+
+          // Weekend restrictions (Sunday = 0, Saturday = 6)
+          if (dayOfWeek === 0 || dayOfWeek === 6) {
+            slot.classList.add("unavailable");
+            slot.textContent =
+              slot.textContent.split(" ")[0] +
+              " " +
+              slot.textContent.split(" ")[1] +
+              " (Closed)";
+          } else if (unavailableSlots.includes(time)) {
+            slot.classList.add("unavailable");
+            slot.textContent =
+              slot.textContent.split(" ")[0] +
+              " " +
+              slot.textContent.split(" ")[1] +
+              " (Booked)";
+          } else {
+            slot.classList.remove("unavailable");
+            slot.textContent = slot.textContent.split(" (")[0]; // Remove status text
+          }
+        });
+
+        updateAppointmentSummary();
+      }
+
+      // Handle time slot selection
+      document.querySelectorAll(".time-slot").forEach((slot) => {
+        slot.addEventListener("click", function () {
+          if (this.classList.contains("unavailable")) return;
+
+          // Remove selection from other slots
+          document
+            .querySelectorAll(".time-slot")
+            .forEach((s) => s.classList.remove("selected"));
+
+          // Select this slot
+          this.classList.add("selected");
+          updateAppointmentSummary();
+        });
+      });
+
+      // Update appointment summary
+      function updateAppointmentSummary() {
+        const name = document.getElementById("fullName").value;
+        const date = document.getElementById("appointmentDate").value;
+        const contact = document.getElementById("contactNumber").value;
+        const selectedTimeSlot = document.querySelector(".time-slot.selected");
+        const documentsSelect = document.getElementById("documents");
+
+        let documents = "";
+        if (documentsSelect.value === "multiple") {
+          const checkedBoxes = document.querySelectorAll(
+            'input[name="multiDocs"]:checked'
+          );
+          documents = Array.from(checkedBoxes)
+            .map((cb) => cb.value)
+            .join(", ");
+        } else if (documentsSelect.value) {
+          documents =
+            documentsSelect.options[documentsSelect.selectedIndex].text;
+        }
+
+        const summarySection = document.getElementById("appointmentSummary");
+
+        if (name && date && selectedTimeSlot && documents) {
+          summarySection.style.display = "block";
+
+          document.getElementById("summaryName").textContent = name;
+          document.getElementById("summaryDate").textContent = new Date(
+            date
+          ).toLocaleDateString("en-US", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          });
+          document.getElementById("summaryTime").textContent =
+            selectedTimeSlot.textContent.split(" (")[0];
+          document.getElementById("summaryDocuments").textContent = documents;
+          document.getElementById("summaryContact").textContent = contact;
+        } else {
+          summarySection.style.display = "none";
+        }
+      }
+
+      // Add event listeners for form updates
+      document
+        .getElementById("fullName")
+        .addEventListener("input", updateAppointmentSummary);
+      document
+        .getElementById("contactNumber")
+        .addEventListener("input", updateAppointmentSummary);
+      document.querySelectorAll('input[name="multiDocs"]').forEach((cb) => {
+        cb.addEventListener("change", updateAppointmentSummary);
+      });
+
+      // Reset form
+      function resetForm() {
+        document.getElementById("appointmentForm").reset();
+        document.querySelectorAll(".time-slot").forEach((slot) => {
+          slot.classList.remove("selected", "unavailable");
+        });
+        document.getElementById("multipleDocsGroup").style.display = "none";
+        document.getElementById("appointmentSummary").style.display = "none";
+
+        // Reset values
+        document.getElementById("fullName").value = "Juan Dela Cruz";
+        document.getElementById("contactNumber").value = "+63 912 345 6789";
+        document.getElementById("email").value = "juan.delacruz@email.com";
+      }
+
+      // Submit appointment
+      function submitAppointment(event) {
+        event.preventDefault();
+
+        const name = document.getElementById("fullName").value;
+        const date = document.getElementById("appointmentDate").value;
+        const contact = document.getElementById("contactNumber").value;
+        const selectedTimeSlot = document.querySelector(".time-slot.selected");
+        const documentsSelect = document.getElementById("documents");
+
+        // Validation
+        if (
+          !name ||
+          !date ||
+          !contact ||
+          !selectedTimeSlot ||
+          !documentsSelect.value
+        ) {
+          alert("Please fill in all required fields and select a time slot.");
+          return;
+        }
+
+        if (documentsSelect.value === "multiple") {
+          const checkedBoxes = document.querySelectorAll(
+            'input[name="multiDocs"]:checked'
+          );
+          if (checkedBoxes.length === 0) {
+            alert("Please select at least one document for pickup.");
+            return;
+          }
+        }
+
+        // Simulate successful booking
+        const appointmentRef = "APT-" + Date.now().toString().slice(-6);
+
+        alert(`Appointment Successfully Booked! 🎉
+
+Appointment Reference: ${appointmentRef}
+Date: ${new Date(date).toLocaleDateString("en-US", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })}
+Time: ${selectedTimeSlot.textContent}
+
+📧 A confirmation email will be sent to your registered email address.
+📱 You will receive an SMS reminder 1 day before your appointment.
+
+Please bring a valid ID and your appointment reference number.
+
+Thank you for using E-Service Barangay Portal!`);
+
+        // Reset form after successful submission
+        setTimeout(() => {
+          resetForm();
+        }, 1000);
+      }
+    </script>
+  </body>
+</html>
