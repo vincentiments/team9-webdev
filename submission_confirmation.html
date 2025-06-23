@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Confirmation - E-Service Barangay Portal</title>
+    <style>
+        /* Global Reset and Body Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .dashboard-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Styles */
+        .dashboard-header {
+            background: linear-gradient(135deg, #0e7e5c 0%, #1e40af 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+        }
+
+        .nav-link:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* Main Content Area */
+        .dashboard-main {
+            flex: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            width: 100%;
+        }
+
+        /* Portal Header */
+        .portal-header {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 16px 16px 0 0;
+            position: relative;
+            overflow: hidden;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .portal-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 100%;
+            background: rgba(255,255,255,0.1);
+            transform: skewX(-15deg);
+            transform-origin: top right;
+        }
+
+        .portal-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .portal-title h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .portal-badge {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        /* Confirmation Card Styles */
+        .confirmation-card {
+            background: white;
+            border-radius: 0 0 16px 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            padding: 3rem;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 2rem auto;
+        }
+
+        .confirmation-icon {
+            margin-bottom: 1.5rem;
+        }
+
+        .confirmation-icon svg {
+            color: #16a34a;
+            width: 80px;
+            height: 80px;
+        }
+
+        .confirmation-message h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+
+        .confirmation-message p {
+            font-size: 1.1rem;
+            color: #64748b;
+            margin-bottom: 2rem;
+        }
+
+        /* Reference Number Section */
+        .reference-section {
+            background: #f0f9ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .reference-section p {
+            font-size: 1rem;
+            color: #334155;
+            margin-bottom: 0.5rem;
+        }
+
+        .reference-section .ref-no {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1e40af;
+        }
+
+        /* User Info Section */
+        .user-info-section {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .user-info-section h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 0.25rem;
+        }
+
+        .info-value {
+            font-size: 1rem;
+            color: #1e293b;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .btn-primary-green {
+            background: linear-gradient(135deg, #0e7e5c 0%, #16a34a 100%);
+            color: white;
+        }
+        .btn-primary-green:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(22, 163, 74, 0.4);
+        }
+
+        .btn-primary-blue {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+        }
+        .btn-primary-blue:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-primary-purple {
+            background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
+            color: white;
+        }
+        .btn-primary-purple:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #1e40af;
+            border: 2px solid #1e40af;
+        }
+
+        .btn-secondary:hover {
+            background: #1e40af;
+            color: white;
+        }
+
+        .button-row-single {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin-top: 2.5rem;
+        }
+
+        /* Footer Styles */
+        .dashboard-footer {
+            background: #1e293b;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.9rem;
+        }
+
+        /* Custom Alert Modal Styles */
+        .custom-alert-modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+            backdrop-filter: blur(5px);
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .custom-alert-modal.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .custom-alert-modal-content {
+            background-color: #fefefe;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        }
+
+        .custom-alert-modal.show .custom-alert-modal-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .custom-alert-modal-content h3 {
+            font-size: 1.5rem;
+            color: #1e293b;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .custom-alert-modal-content p {
+            font-size: 1rem;
+            color: #4a5568;
+            margin-bottom: 25px;
+        }
+
+        .custom-alert-modal-content .btn {
+            min-width: 100px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .custom-alert-modal-content .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 0 1rem;
+            }
+
+            .header-nav {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .dashboard-main {
+                padding: 1rem;
+            }
+
+            .portal-header {
+                padding: 1.5rem;
+                border-radius: 8px 8px 0 0;
+                max-width: 100%;
+            }
+
+            .portal-title {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .portal-title h2 {
+                font-size: 2rem;
+            }
+
+            .confirmation-card {
+                padding: 2rem 1rem;
+                margin: 0 auto 1rem auto;
+                border-radius: 0 0 8px 8px;
+                max-width: 100%;
+            }
+
+            .confirmation-message h1 {
+                font-size: 2rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .button-row-single {
+                margin-top: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <div class="header-content">
+                <div class="header-left">
+                    <h1>E-Service Barangay Portal</h1>
+                </div>
+                <div class="header-right">
+                    <nav class="header-nav">
+                        <a href="homepage.html" class="nav-link">Home Page</a>
+                        <a href="announcement.html" class="nav-link">Announcement</a>
+                        <a href="about_us.html" class="nav-link">About Us</a>
+                        <a href="request-form.html" class="nav-link">My Request</a>
+                        <a href="index.html" class="nav-link">🚪 Log Out</a>
+                    </nav>
+                </div>
+            </div>
+        </header>
+
+        <main class="dashboard-main">
+            <div class="portal-header">
+                <div class="portal-title">
+                    <h2>My Request</h2>
+                    <div class="portal-badge">E-Service Barangay Portal</div>
+                </div>
+            </div>
+
+            <div class="confirmation-card">
+                <div class="confirmation-icon">
+                    <svg class="mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+
+                <div class="confirmation-message">
+                    <h1>Thank You!</h1>
+                    <p>Your submission has been successfully received.</p>
+                </div>
+
+                <div class="reference-section">
+                    <p>Reference Number:</p>
+                    <p id="refNo" class="ref-no"></p>
+                </div>
+
+                <div class="user-info-section">
+                    <h3>Request Details</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Applicant Name:</span>
+                            <span class="info-value" id="applicantName">Loading...</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Document Type:</span>
+                            <span class="info-value" id="documentType">Loading...</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Purpose:</span>
+                            <span class="info-value" id="purpose">Loading...</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Contact Number:</span>
+                            <span class="info-value" id="contactNumber">Loading...</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Date Requested:</span>
+                            <span class="info-value" id="dateRequested">Loading...</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Amount:</span>
+                            <span class="info-value" id="amount">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <a href="request-form.html" class="btn btn-primary-green">
+                        Make a New Request
+                    </a>
+                    <a href="homepage.html" class="btn btn-primary-blue">
+                        Go Back to Homepage
+                    </a>
+                    <button type="button" class="btn btn-primary-purple" id="downloadReceiptBtn">
+                        Download Receipt
+                    </button>
+                </div>
+
+                <div class="button-row-single">
+                    <a href="request-tracking.html" class="btn btn-secondary" id="trackRequestBtn">
+                        Track Your Request
+                    </a>
+                </div>
+            </div>
+        </main>
+
+        <footer class="dashboard-footer">
+            <p>DIT 2-5 | WebDev | Team 9</p>
+        </footer>
+    </div>
+
+    <div id="customAlertModal" class="custom-alert-modal">
+        <div class="custom-alert-modal-content">
+            <h3 id="customAlertTitle">Alert</h3>
+            <p id="customAlertMessage">This is a custom alert message.</p>
+            <button type="button" class="btn" id="customAlertOkBtn">OK</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> 
+    
+    <script>
+        console.log("Script block loaded and executing.");
+
+        // --- Custom Alert Modal Logic ---
+        const customAlertModal = document.getElementById('customAlertModal');
+        const customAlertTitle = document.getElementById('customAlertTitle');
+        const customAlertMessage = document.getElementById('customAlertMessage');
+        const customAlertOkBtn = document.getElementById('customAlertOkBtn');
+
+        function showCustomAlert(title, message) {
+            customAlertTitle.textContent = title;
+            customAlertMessage.textContent = message;
+            customAlertModal.style.display = 'flex';
+            requestAnimationFrame(() => {
+                customAlertModal.classList.add('show');
+            });
+        }
+
+        function hideCustomAlert() {
+            customAlertModal.classList.remove('show');
+            setTimeout(() => {
+                customAlertModal.style.display = 'none';
+            }, 300);
+        }
+
+        customAlertOkBtn.addEventListener('click', hideCustomAlert);
+
+        window.addEventListener('click', function(event) {
+            if (event.target == customAlertModal) {
+                hideCustomAlert();
+            }
+        });
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && customAlertModal.classList.contains('show')) {
+                hideCustomAlert();
+            }
+        });
+
+        // --- Reference Number Generation ---
+        let generatedRefNo = "";
+        let userRequestData = {};
+
+        function generateReferenceNumber() {
+            const now = new Date();
+            const year = now.getFullYear().toString();
+            const month = (now.getMonth() + 1).toString().padStart(2, '0');
+            const day = now.getDate().toString().padStart(2, '0');
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            const milliseconds = now.getMilliseconds().toString().padStart(3, '0');
+
+            return `${year}${month}${day}${hours}${minutes}${seconds}${milliseconds}`;
+        }
+
+        // --- Get User Data Function ---
+        function getUserRequestData() {
+            // Try to get data from URL parameters first
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            if (urlParams.get('name')) {
+                return {
+                    applicantName: urlParams.get('name') || 'Juan Dela Cruz',
+                    documentType: urlParams.get('docType') || 'Barangay Clearance',
+                    purpose: urlParams.get('purpose') || 'Employment Requirements',
+                    contactNumber: urlParams.get('contact') || '+63 912 345 6789',
+                    amount: 'PHP ' + (urlParams.get('amount') || '150.00')
+                };
+            }
+
+            // Default data if no user data is found
+            return {
+                applicantName: 'Juan Dela Cruz',
+                documentType: 'Barangay Clearance',
+                purpose: 'Employment Requirements',
+                contactNumber: '+63 912 345 6789',
+                amount: 'PHP 150.00'
+            };
+        }
+
+        // --- Display User Information ---
+        function displayUserInfo(data) {
+            document.getElementById('applicantName').textContent = data.applicantName;
+            document.getElementById('documentType').textContent = data.documentType;
+            document.getElementById('purpose').textContent = data.purpose;
+            document.getElementById('contactNumber').textContent = data.contactNumber;
+            document.getElementById('dateRequested').textContent = new Date().toLocaleDateString();
+            document.getElementById('amount').textContent = data.amount;
+        }
+
+        // --- Initialize Page ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Generate reference number
+            generatedRefNo = generateReferenceNumber();
+            document.getElementById('refNo').textContent = generatedRefNo;
+
+            // Get user data
+            userRequestData = getUserRequestData();
+            
+            // Display user information
+            displayUserInfo(userRequestData);
+
+            // Update the Track Request button's href.
+            const baseUrl = "request-tracking.html";
+            const params = new URLSearchParams({
+                ref: generatedRefNo,
+                name: userRequestData.applicantName,
+                doc: userRequestData.documentType,
+                purpose: userRequestData.purpose,
+                contact: userRequestData.contactNumber,
+                date: new Date().toISOString().split('T')[0],
+                amount: userRequestData.amount.replace('PHP ', ''),
+                status: 'Pending'
+            });
+            document.getElementById('trackRequestBtn').href = `${baseUrl}?${params.toString()}`;
+        });
+
+        // --- PDF Receipt Download Logic ---
+        const downloadReceiptBtn = document.getElementById('downloadReceiptBtn');
+
+        downloadReceiptBtn.addEventListener('click', function(event) {
+            event.preventDefault();
+
+            if (typeof window.jspdf === 'undefined') {
+                showCustomAlert('Error', 'PDF library not loaded. Please check your internet connection.');
+                console.error("jsPDF library is not loaded.");
+                return;
+            }
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Get current date and time
+            const now = new Date();
+            const dateIssued = now.toLocaleDateString('en-PH', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            const timeIssued = now.toLocaleTimeString('en-PH', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            });
+
+            // Set up variables for positioning
+            let yPos = 15;
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const margin = 20;
+            const centerX = pageWidth / 2;
+
+            // --- HEADER SECTION ---
+            // Republic header
+            doc.setFontSize(10);
+            doc.setFont("helvetica", "normal");
+            doc.text("Republic of the Philippines", centerX, yPos, { align: 'center' });
+            yPos += 5;
+            doc.text("Province of National Capital Region", centerX, yPos, { align: 'center' });
+            yPos += 5;
+            doc.text("City of Manila", centerX, yPos, { align: 'center' });
+            yPos += 8;
+
+            // Barangay header
+            doc.setFontSize(14);
+            doc.setFont("helvetica", "bold");
+            doc.text("BARANGAY 593", centerX, yPos, { align: 'center' });
+            yPos += 8;
+
+            // Official Receipt title
+            doc.setFontSize(16);
+            doc.text("OFFICIAL RECEIPT", centerX, yPos, { align: 'center' });
+            yPos += 12;
+
+            // Receipt number and series
+            doc.setFontSize(9);
+            doc.setFont("helvetica", "normal");
+            doc.text(`No. ${generatedRefNo}`, margin, yPos);
+            doc.text(`Series of ${now.getFullYear()}`, pageWidth - margin, yPos, { align: 'right' });
+            yPos += 10;
+
+            // Horizontal line
+            doc.line(margin, yPos, pageWidth - margin, yPos);
+            yPos += 8;
+
+            // --- RECIPIENT INFORMATION ---
+            doc.setFontSize(10);
+            doc.text("Received from:", margin, yPos);
+            yPos += 6;
+            
+            doc.setFont("helvetica", "bold");
+            doc.text(userRequestData.applicantName.toUpperCase(), margin + 5, yPos);
+            yPos += 8;
+
+            doc.setFont("helvetica", "normal");
+            doc.text("Address: _________________________________________________", margin, yPos);
+            yPos += 10;
+
+            // --- PAYMENT DETAILS ---
+            doc.text("The sum of:", margin, yPos);
+            yPos += 6;
+
+            // Convert amount to words (simplified)
+            const amount = parseFloat(userRequestData.amount.replace('PHP ', ''));
+            const amountInWords = convertAmountToWords(amount);
+            doc.setFont("helvetica", "bold");
+            doc.text(`${amountInWords} PESOS ONLY`, margin + 5, yPos);
+            yPos += 8;
+
+            doc.setFont("helvetica", "normal");
+            doc.text("In payment of:", margin, yPos);
+            yPos += 6;
+
+            doc.setFont("helvetica", "bold");
+            doc.text(userRequestData.documentType.toUpperCase(), margin + 5, yPos);
+            yPos += 5;
+            doc.setFont("helvetica", "normal");
+            doc.text(`Purpose: ${userRequestData.purpose}`, margin + 5, yPos);
+            yPos += 12;
+
+            // --- AMOUNT BOX ---
+            const amountBoxWidth = 60;
+            const amountBoxHeight = 20;
+            const amountBoxX = pageWidth - margin - amountBoxWidth;
+            const amountBoxY = yPos - 15;
+
+            doc.rect(amountBoxX, amountBoxY, amountBoxWidth, amountBoxHeight);
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(12);
+            doc.text(`₱ ${amount.toFixed(2)}`, amountBoxX + amountBoxWidth/2, amountBoxY + 12, { align: 'center' });
+            yPos += 10;
+
+            // --- CERTIFICATION ---
+            doc.setFontSize(9);
+            doc.setFont("helvetica", "normal");
+            doc.text("It is hereby certified that the above amount has been received", margin, yPos);
+            yPos += 5;
+            doc.text("in payment of the obligation above mentioned.", margin, yPos);
+            yPos += 15;
+
+            // --- SIGNATURES SECTION ---
+            const signatureY = yPos;
+            
+            // Date and signature areas
+            doc.text(`Date: ${dateIssued}`, margin, signatureY);
+            doc.text(`Time: ${timeIssued}`, margin, signatureY + 8);
+            
+            // Signature line
+            const sigLineX = pageWidth - margin - 80;
+            doc.line(sigLineX, signatureY + 5, pageWidth - margin, signatureY + 5);
+            doc.text("Authorized Signature", sigLineX + 40, signatureY + 12, { align: 'center' });
+            
+            yPos = signatureY + 25;
+
+            // --- FOOTER INFORMATION ---
+            doc.line(margin, yPos, pageWidth - margin, yPos);
+            yPos += 8;
+
+            doc.setFontSize(8);
+            doc.text("IMPORTANT REMINDERS:", margin, yPos);
+            yPos += 5;
+            doc.text("• This receipt is valid only when properly accomplished and signed", margin, yPos);
+            yPos += 4;
+            doc.text("• Keep this receipt for your records", margin, yPos);
+            yPos += 4;
+            doc.text("• Present this receipt when claiming your document", margin, yPos);
+            yPos += 8;
+
+            doc.text("For inquiries, contact:", margin, yPos);
+            yPos += 4;
+            doc.text("Barangay 593 Office | Contact: 0999123546548| Email: barangayofficial593@gmail.com", margin, yPos);
+            yPos += 8;
+
+            // Reference number at bottom
+            doc.setFontSize(7);
+            doc.text(`Transaction Reference: ${generatedRefNo}`, centerX, yPos, { align: 'center' });
+
+            // Save the PDF
+            doc.save(`Official_Receipt_${generatedRefNo}.pdf`);
+
+            showCustomAlert('Download Complete', 'Your official receipt has been downloaded successfully.');
+        });
+
+        // Helper function to convert amount to words (simplified version)
+        function convertAmountToWords(amount) {
+            const ones = ['', 'ONE', 'TWO', 'THREE', 'FOUR', 'FIVE', 'SIX', 'SEVEN', 'EIGHT', 'NINE'];
+            const tens = ['', '', 'TWENTY', 'THIRTY', 'FORTY', 'FIFTY', 'SIXTY', 'SEVENTY', 'EIGHTY', 'NINETY'];
+            const teens = ['TEN', 'ELEVEN', 'TWELVE', 'THIRTEEN', 'FOURTEEN', 'FIFTEEN', 'SIXTEEN', 'SEVENTEEN', 'EIGHTEEN', 'NINETEEN'];
+            
+            if (amount === 0) return 'ZERO';
+            
+            let result = '';
+            let integerPart = Math.floor(amount);
+            
+            if (integerPart >= 1000) {
+                const thousands = Math.floor(integerPart / 1000);
+                result += convertHundreds(thousands) + ' THOUSAND ';
+                integerPart %= 1000;
+            }
+            
+            if (integerPart > 0) {
+                result += convertHundreds(integerPart);
+            }
+            
+            return result.trim();
+            
+            function convertHundreds(num) {
+                let result = '';
+                
+                if (num >= 100) {
+                    result += ones[Math.floor(num / 100)] + ' HUNDRED ';
+                    num %= 100;
+                }
+                
+                if (num >= 20) {
+                    result += tens[Math.floor(num / 10)] + ' ';
+                    num %= 10;
+                    if (num > 0) {
+                        result += ones[num] + ' ';
+                    }
+                } else if (num >= 10) {
+                    result += teens[num - 10] + ' ';
+                } else if (num > 0) {
+                    result += ones[num] + ' ';
+                }
+                
+                return result;
+            }
+        }
+    </script>
+</body>
+</html>

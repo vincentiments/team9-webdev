@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Track Request - E-Service Barangay Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .dashboard-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dashboard-header {
+            background: linear-gradient(135deg, #0e7e5c 0%, #1e40af 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+        }
+
+        .nav-link:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .dashboard-main {
+            flex: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            width: 100%;
+        }
+
+        .tracking-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .tracking-header {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 16px 16px 0 0;
+        }
+
+        .portal-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .portal-title h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .portal-badge {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .tracking-card {
+            background: white;
+            border-radius: 0 0 16px 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .pending-section {
+            padding: 2rem;
+            background: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .pending-section h3 {
+            color: #1e293b;
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .request-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .request-info h4 {
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .request-info p {
+            color: #64748b;
+            margin: 0.25rem 0;
+            font-size: 0.9rem;
+        }
+
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .status-badge.processing {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .tracking-section {
+            padding: 2rem;
+        }
+
+        .tracking-section h3 {
+            color: #1e293b;
+            margin-bottom: 2rem;
+            font-size: 1.3rem;
+        }
+
+        .progress-tracker {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .progress-step {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .step-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            background: #e2e8f0;
+            border: 3px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .progress-step.completed .step-icon {
+            background: #dcfce7;
+            border-color: #16a34a;
+        }
+
+        .progress-step.active .step-icon {
+            background: #fef3c7;
+            border-color: #f59e0b;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-content h4 {
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .step-content p {
+            color: #64748b;
+            margin-bottom: 0.25rem;
+        }
+
+        .step-date {
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+
+        .progress-line {
+            position: absolute;
+            left: 29px;
+            width: 3px;
+            background: #e2e8f0;
+            z-index: 1;
+        }
+        .progress-tracker .progress-line:nth-of-type(1) { height: 76px; top: 60px; }
+        .progress-tracker .progress-line:nth-of-type(2) { height: 76px; top: calc(60px + 76px); }
+        .progress-tracker .progress-line:nth-of-type(3) { height: 76px; top: calc(60px + 2 * 76px); }
+        .progress-tracker .progress-line:nth-of-type(4) { height: 76px; top: calc(60px + 3 * 76px); }
+        .progress-tracker .progress-line:nth-of-type(5) { height: 76px; top: calc(60px + 4 * 76px); }
+
+
+        .progress-line.completed {
+            background: #16a34a;
+        }
+
+        .payment-section {
+            background: #f0f9ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            color: #1e40af;
+        }
+
+        .payment-section h4 {
+            color: #1e40af;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .payment-section p {
+            margin-bottom: 0.75rem;
+            line-height: 1.5;
+        }
+
+        .payment-method-container {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .payment-method-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .payment-method-options label {
+            display: inline-flex;
+            align-items: center;
+            font-size: 1rem;
+            color: #334155;
+            padding: 0.5rem 1rem;
+            border: 1px solid #bfdbfe;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .payment-method-options label:hover {
+            background-color: #e0f2fe;
+        }
+
+        .payment-method-options input[type="radio"] {
+            margin-right: 0.5rem;
+            transform: scale(1.2);
+            accent-color: #1e40af;
+        }
+
+        .pay-now-btn {
+            margin-top: 1.5rem;
+            width: auto;
+        }
+
+        .payment-note {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-top: 1rem;
+        }
+
+        .document-pickup-instructions {
+            background: #f0f9ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            color: #1e40af;
+        }
+
+        .document-pickup-instructions h4 {
+            color: #1e40af;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .document-pickup-instructions p {
+            margin-bottom: 0.75rem;
+            line-height: 1.5;
+        }
+
+        .document-pickup-instructions ul {
+            list-style-type: none;
+            padding-left: 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .document-pickup-instructions ul li {
+            margin-bottom: 0.5rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .document-pickup-instructions ul li:before {
+            content: "•";
+            color: #1e40af;
+            position: absolute;
+            left: 0;
+        }
+
+        .action-section {
+            padding: 2rem;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #1e40af;
+            border: 2px solid #1e40af;
+        }
+
+        .btn-secondary:hover {
+            background: #1e40af;
+            color: white;
+        }
+
+        .dashboard-footer {
+            background: #1e293b;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 0 1rem;
+            }
+
+            .header-nav {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .dashboard-main {
+                padding: 1rem;
+            }
+
+            .tracking-container {
+                max-width: 100%;
+            }
+
+            .request-item {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .progress-step {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .progress-line {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .action-section {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <div class="header-content">
+                <div class="header-left">
+                    <h1>E-Service Barangay Portal</h1>
+                </div>
+                <div class="header-right">
+                    <nav class="header-nav">
+                        <a href="homepage.html" class="nav-link">Home Page</a>
+                        <a href="announcement.html" class="nav-link">Announcement</a>
+                        <a href="about_us.html" class="nav-link">About Us</a>
+                        <a href="request-form.html" class="nav-link">My Request</a>
+                        <a href="index.html" class="nav-link">🚪 Log Out</a>
+                    </nav>
+                </div>
+            </div>
+        </header>
+
+        <main class="dashboard-main">
+            <div class="tracking-container">
+                <div class="tracking-header">
+                    <div class="portal-title">
+                        <h2>My Request</h2>
+                        <div class="portal-badge">E-Service Barangay Portal</div>
+                    </div>
+                </div>
+
+                <div class="tracking-card">
+                    <div class="pending-section">
+                        <h3>Pending Request</h3>
+
+                        <div class="request-item">
+                            <div class="request-info">
+                                <h4>Name: Juan Dela Cruz</h4>
+                                <p><strong>Ref No:</strong> 202400001</p>
+                                <p><strong>Date of Request:</strong> 12/05/2024</p>
+                                <p><strong>Time of Request:</strong> <span id="timeOfRequest"></span></p>
+                            </div>
+                            <div class="request-status">
+                                <div class="status-badge processing">Processing</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tracking-section">
+                        <h3>Track Your Progress</h3>
+
+                        <div class="progress-tracker">
+                            <div class="progress-line" style="top: 60px; height: 76px;"></div>
+                            <div class="progress-line" style="top: calc(60px + 76px); height: 76px;"></div>
+                            <div class="progress-line" style="top: calc(60px + 2 * 76px); height: 76px;"></div>
+                            <div class="progress-line" style="top: calc(60px + 3 * 76px); height: 76px;"></div>
+                            <div class="progress-line" style="top: calc(60px + 4 * 76px); height: 76px;"></div>
+
+                            <div class="progress-step completed">
+                                <div class="step-icon">📝</div>
+                                <div class="step-content">
+                                    <h4>Request Submitted</h4>
+                                    <p>Your request has been successfully submitted</p>
+                                    <span class="step-date">12/05/2024</span>
+                                </div>
+                            </div>
+
+                            <div class="progress-step completed">
+                                <div class="step-icon">⏳</div>
+                                <div class="step-content">
+                                    <h4>Under Review</h4>
+                                    <p>Your request is being reviewed by our team</p>
+                                    <span class="step-date">In Progress</span>
+                                </div>
+                            </div>
+
+                            <div class="progress-step completed">
+                                <div class="step-icon">✅</div>
+                                <div class="step-content">
+                                    <h4>Approved</h4>
+                                    <p>Your request has been approved</p>
+                                    <span class="step-date">Pending</span>
+                                </div>
+                            </div>
+
+                            <div class="progress-step completed">
+                                <div class="step-icon">📦</div>
+                                <div class="step-content">
+                                    <h4>Ready for Pickup</h4>
+                                    <p>Your document is ready for collection</p>
+                                    <span class="step-date">Pending</span>
+                                </div>
+                            </div>
+
+                            <div class="progress-step active">
+                                <div class="step-icon">📄</div>
+                                <div class="step-content">
+                                    <h4>Document Collected</h4>
+                                    <p>Your document has been successfully picked up.</p>
+                                    <span class="step-date">12/10/2024</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="payment-section">
+                            <h4>Payment Details for Request 202400001</h4>
+                            <p>
+                                To continue with your request for Barangay Clearance, a payment
+                                of <strong>PHP 150.00</strong> is required.
+                            </p>
+                            <div class="payment-method-container">
+                                <p>Choose your preferred payment method:</p>
+                                <div class="payment-method-options">
+                                    <label>
+                                        <input
+                                            type="radio"
+                                            name="payment_method"
+                                            value="gcash"
+                                            checked
+                                        />
+                                        GCash
+                                    </label>
+                                    <label>
+                                        <input
+                                            type="radio"
+                                            name="payment_method"
+                                            value="bank_transfer"
+                                        />
+                                        Bank Transfer
+                                    </label>
+                                    <label>
+                                        <input
+                                            type="radio"
+                                            name="payment_method"
+                                            value="credit_card"
+                                        />
+                                        Credit/Debit Card
+                                    </label>
+                                </div>
+                            </div>
+                            <button
+                                class="btn btn-primary pay-now-btn"
+                                onclick="window.location.href='payment-page.html'"
+                            >
+                                Pay Now (PHP 150.00)
+                            </button>
+                            <p class="payment-note">
+                                *Please note: Payments are processed securely. Your request
+                                will proceed to 'Ready for Pickup' once payment is confirmed.
+                            </p>
+                        </div>
+
+                        <div class="document-pickup-instructions">
+                            <h4>Document Pickup Instructions</h4>
+                            <p>
+                                Please follow these steps to collect your document at the
+                                Barangay Hall.
+                            </p>
+                            <ul>
+                                <li>
+                                    <strong>Step 1: Check Operating Hours.</strong> Our office
+                                    hours are from 8:00 AM to 5:00 PM, Monday to Friday. We are
+                                    closed on weekends and public holidays.
+                                </li>
+                                <li>
+                                    <strong>Step 2: Bring Valid ID.</strong> Please present one
+                                    (1) valid government-issued ID (e.g., Driver's License,
+                                    Passport, PhilHealth ID, SSS ID) for verification.
+                                </li>
+                                <li>
+                                    <strong>Step 3: Present Reference Number.</strong> Kindly
+                                    provide your unique Reference Number:
+                                    <strong>202400001</strong> to our staff.
+                                </li>
+                                <li>
+                                    <strong>Step 4: Sign Release Form.</strong> You will be
+                                    required to sign a document release form upon collection.
+                                </li>
+                                <li>
+                                    <strong>Step 5: Authorized Representative.</strong> If a
+                                    representative is picking up on your behalf, they must bring
+                                    their valid ID, your valid ID (photocopy is acceptable), and
+                                    a signed authorization letter from you.
+                                </li>
+                            </ul>
+                            <p>
+                                For any inquiries, please contact the Barangay Secretary's
+                                office during operating hours.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="action-section">
+                        <button
+                            class="btn btn-primary"
+                            onclick="window.location.href='request-form.html'"
+                        >
+                            Submit New Request
+                        </button>
+                        <button
+                            class="btn btn-secondary"
+                            onclick="window.location.href='homepage.html'"
+                        >
+                            Back to Home
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="dashboard-footer">
+            <p>DIT 2-5 | WebDev | Team 9</p>
+        </footer>
+    </div>
+
+    <div id="customAlertModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center;">
+        <div style="background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center; max-width: 300px;">
+            <p id="customAlertMessage" style="margin-bottom: 20px; font-size: 1.1rem;"></p>
+            <button onclick="hideCustomAlert()" style="background-color: #1e40af; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">OK</button>
+        </div>
+    </div>
+
+    <script>
+        function showCustomAlert(message) {
+            document.getElementById('customAlertMessage').innerText = message;
+            document.getElementById('customAlertModal').style.display = 'flex';
+        }
+
+        function hideCustomAlert() {
+            document.getElementById('customAlertModal').style.display = 'none';
+        }
+
+        function setTimeOfRequestInPST() {
+            const date = new Date();
+            const options = {
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric',
+                hour12: true,
+                timeZone: 'America/Los_Angeles'
+            };
+            const pstTime = date.toLocaleString('en-US', options);
+            document.getElementById('timeOfRequest').innerText = pstTime;
+        }
+
+        document.addEventListener('DOMContentLoaded', setTimeOfRequestInPST);
+    </script>
+</body>
+</html>
