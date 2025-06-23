@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Barangay Citizen Portal</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      /* Add smooth scrolling to the entire page */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Base transition for all elements */
+      * {
+        transition: all 0.3s ease;
+      }
+
+      .citizen-portal {
+        background-image: linear-gradient(
+            rgba(0, 0, 0, 0.401),
+            rgba(0, 0, 0, 0.503)
+          ),
+          url(bg1.png);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat, repeat;
+        padding: 15px;
+        min-height: 102vh;
+        animation: fadeIn 1s ease-in-out;
+      }
+
+      .logo img {
+        object-fit: cover;
+        transition: transform 0.3s ease, filter 0.3s ease;
+      }
+
+      /* Logo hover effect */
+      .logo img:hover {
+        transform: scale(1.1) rotate(5deg);
+        filter: brightness(1.2);
+      }
+
+      .citizen-nav {
+        background: linear-gradient(135deg, #0e7e5c 15%, white 100%);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        color: white;
+        padding: 1rem;
+        border-radius: 16px 16px 0 0;
+        margin-top: -25px;
+        margin-left: -15px;
+        margin-right: -15px;
+        animation: slideDown 0.8s ease-out;
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+      }
+
+      /* Enhanced nav hover effect */
+      .citizen-nav:hover {
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        transform: translateY(-2px);
+      }
+
+      .citizen-nav .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-align: center;
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .citizen-nav .nav-links {
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+        height: 55px; /* Match logo height */
+      }
+
+      .citizen-nav .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        position: relative;
+        padding: 12px 16px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        height: 100%;
+      }
+
+      /* Enhanced nav link hover effects */
+      .citizen-nav .nav-links a:hover {
+        opacity: 0.8;
+        transform: translateY(-2px);
+        background-color: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+      }
+
+      /* Underline animation for nav links */
+      .citizen-nav .nav-links a:not(.login-btn)::after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: 0;
+        left: 50%;
+        background-color: white;
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+      }
+
+      .citizen-nav .nav-links a:not(.login-btn):hover::after {
+        width: 100%;
+      }
+
+      .citizen-nav .nav-links .login-btn {
+        background-color: #1266ae;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 4px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 10px rgba(18, 102, 174, 0.3);
+        display: flex;
+        align-items: center;
+        height: auto;
+      }
+
+      .login-btn:hover {
+        background-color: #0d5392;
+        transform: translateY(-3px);
+        box-shadow: 0 4px 20px rgba(18, 102, 174, 0.4);
+      }
+
+      .citizen-nav .user-info {
+        color: 0e7e5c;
+        font-size: 0.9rem;
+      }
+
+      .citizen-hero {
+        text-align: center;
+        padding: 4rem 0;
+        padding-top: 15rem;
+        color: white;
+        animation: fadeInUp 1.2s ease-out 0.3s both;
+      }
+
+      .citizen-hero h1 {
+        font-size: 3.5rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        background-color: transparent;
+        animation: titleGlow 2s ease-in-out infinite alternate;
+      }
+
+      .citizen-hero p {
+        font-size: 1.2rem;
+        margin-bottom: 3rem;
+        opacity: 0.9;
+        background-color: transparent;
+        animation: fadeInUp 1s ease-out 0.6s both;
+      }
+
+      /* Emergency Hotlines Section */
+      .emergency-section {
+        background-color: rgba(255, 255, 255, 0.5);
+        padding: 3rem 0;
+        margin: 2rem -15px;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        animation: fadeIn 1s ease-out;
+      }
+
+      .emergency-section h2 {
+        text-align: center;
+        color: #d32f2f;
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+      }
+
+      .emergency-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        padding: 0 2rem;
+      }
+
+      .emergency-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        border-left: 5px solid #d32f2f;
+      }
+
+      .emergency-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      }
+
+      .emergency-card h3 {
+        color: #d32f2f;
+        margin-bottom: 1rem;
+        font-size: 1.3rem;
+      }
+
+      .emergency-card p {
+        color: #555;
+        margin-bottom: 0.5rem;
+      }
+
+      .emergency-number {
+        font-weight: bold;
+        color: #0e7e5c;
+        font-size: 1.2rem;
+      }
+
+      .emergency-note {
+        text-align: center;
+        margin-top: 2rem;
+        font-style: italic;
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      .footer-info {
+        background: #1a1919;
+        color: white;
+        text-align: center;
+        padding: 2rem 0;
+        animation: slideUp 0.8s ease-out 0.5s both;
+        transition: background-color 0.3s ease;
+      }
+
+      .footer-info:hover {
+        background: #2a2929;
+      }
+
+      .req-button {
+        color: white;
+        background-color: #0e7e5c;
+        padding: 15px 30px;
+        font-size: 1rem;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 15px rgba(14, 126, 92, 0.3);
+        position: relative;
+        overflow: hidden;
+        animation: fadeInUp 1s ease-out 0.9s both;
+      }
+
+      /* Ripple effect for button */
+      .req-button::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+      }
+
+      .req-button:hover::before {
+        width: 300px;
+        height: 300px;
+      }
+
+      .req-button:hover {
+        background-color: #0a5c43;
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 0 8px 30px rgba(14, 126, 92, 0.4);
+      }
+
+      .req-button:active {
+        transform: translateY(-3px) scale(1.02);
+      }
+
+      /* Animations */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideDown {
+        from {
+          transform: translateY(-100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          transform: translateY(50px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideUp {
+        from {
+          transform: translateY(50px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes titleGlow {
+        from {
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        to {
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3),
+            0 0 20px rgba(255, 255, 255, 0.1);
+        }
+      }
+
+      /* Scroll reveal animation */
+      .scroll-reveal {
+        opacity: 0;
+        transform: translateY(50px);
+        transition: all 0.8s ease-out;
+      }
+
+      .scroll-reveal.revealed {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Floating animation for hero section */
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      .citizen-hero .container {
+        animation: float 3s ease-in-out infinite;
+      }
+
+      /* Enhanced mobile responsiveness with animations */
+      @media (max-width: 768px) {
+        .citizen-hero h1 {
+          font-size: 2.5rem;
+          animation-duration: 1.5s;
+        }
+
+        .services-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .process-steps {
+          grid-template-columns: 1fr;
+        }
+
+        .citizen-nav .container {
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .citizen-nav .nav-links {
+          gap: 1rem;
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+
+        .citizen-nav .nav-links a {
+          padding: 6px 12px;
+          font-size: 0.9rem;
+        }
+
+        .req-button {
+          padding: 12px 25px;
+          font-size: 0.9rem;
+        }
+
+        .emergency-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .emergency-section h2 {
+          font-size: 2rem;
+        }
+
+        .citizen-hero .container {
+          animation: none; /* Disable floating on mobile for better performance */
+        }
+      }
+
+      /* Loading animation overlay */
+      .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #0e7e5c, #1266ae);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        animation: fadeOut 0.5s ease-out 1.5s both;
+        pointer-events: none;
+      }
+
+      .loading-spinner {
+        width: 50px;
+        height: 50px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-top: 3px solid white;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes fadeOut {
+        to {
+          opacity: 0;
+          visibility: hidden;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Loading overlay -->
+    <div class="loading-overlay">
+      <div class="loading-spinner"></div>
+    </div>
+
+    <div class="citizen-portal">
+      <nav class="citizen-nav">
+        <div class="container">
+          <div class="logo">
+            <a href="homepage.html"
+              ><img src="logo.png" height="55" width="55"
+            /></a>
+          </div>
+          <div class="nav-links">
+            <a href="#homepage.html">Home Page</a>
+            <a href="announcement.html">Announcements</a>
+            <a href="about_us.html">About Us</a>
+            <a href="request-form.html">My Request</a>
+            <a href="index.html" class="login-btn">Log out</a>
+          </div>
+        </div>
+      </nav>
+
+      <section class="citizen-hero">
+        <div class="container">
+          <h1>BARANGAY CITIZEN PORTAL</h1>
+          <p>AN ONLINE PORTAL TO REQUEST DOCUMENTS</p>
+          <a href="request-form.html"
+            ><button class="req-button">REQUEST A SERVICE</button></a
+          >
+        </div>
+      </section>
+
+      <!-- Emergency Hotlines Section -->
+      <section class="emergency-section scroll-reveal">
+        <h2>EMERGENCY HOTLINES</h2>
+        <div class="emergency-grid">
+          <div class="emergency-card">
+            <h3>Police & General Emergencies</h3>
+            <p><span class="emergency-number">911</span> - Nationwide Emergency Hotline</p>
+            <p><span class="emergency-number">117</span> - Philippine National Police (PNP)</p>
+            <p><span class="emergency-number">(+632) 8723-0401</span> - Manila Police District</p>
+          </div>
+          
+          <div class="emergency-card">
+            <h3>Fire & Rescue</h3>
+            <p><span class="emergency-number">911</span> - Nationwide Emergency</p>
+            <p><span class="emergency-number">(+632) 8426-0219</span> - Manila Fire Department</p>
+            <p><span class="emergency-number">16016</span> - Bureau of Fire Protection</p>
+          </div>
+          
+          <div class="emergency-card">
+            <h3>Medical Emergencies</h3>
+            <p><span class="emergency-number">911</span> - Nationwide Emergency</p>
+            <p><span class="emergency-number">(+632) 8711-1001</span> - Philippine General Hospital</p>
+            <p><span class="emergency-number">155</span> - DOH Health Emergency Line</p>
+          </div>
+          
+          <div class="emergency-card">
+            <h3>Other Important Numbers</h3>
+            <p><span class="emergency-number">136</span> - MMDA Traffic Hotline</p>
+            <p><span class="emergency-number">(+632) 8527-0000</span> - Manila City Hall</p>
+            <p><span class="emergency-number">(+632) 8524-1726</span> - Red Cross Manila</p>
+          </div>
+        </div>
+        <p class="emergency-note">In case of emergency, please remain calm and provide clear information to the operator.</p>
+      </section>
+    </div>
+
+    <footer class="footer-info">
+      <div class="container">
+        <p>DIT 2-5 | WEB DEV | TEAM 9</p>
+      </div>
+    </footer>
+
+    <script>
+      // Smooth scroll reveal animation
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("revealed");
+          }
+        });
+      }, observerOptions);
+
+      // Observe elements for scroll reveal
+      document.addEventListener("DOMContentLoaded", () => {
+        const revealElements = document.querySelectorAll(".scroll-reveal");
+        revealElements.forEach((el) => observer.observe(el));
+
+        // Add ripple effect to buttons
+        const buttons = document.querySelectorAll(".req-button, .login-btn");
+        buttons.forEach((button) => {
+          button.addEventListener("click", function (e) {
+            const ripple = document.createElement("span");
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+
+            ripple.style.width = ripple.style.height = size + "px";
+            ripple.style.left = x + "px";
+            ripple.style.top = y + "px";
+            ripple.classList.add("ripple");
+
+            this.appendChild(ripple);
+
+            setTimeout(() => {
+              ripple.remove();
+            }, 600);
+          });
+        });
+
+        // Smooth navigation transitions
+        const navLinks = document.querySelectorAll(".nav-links a");
+        navLinks.forEach((link) => {
+          link.addEventListener("mouseenter", function () {
+            this.style.transform = "translateY(-2px) scale(1.05)";
+          });
+
+          link.addEventListener("mouseleave", function () {
+            this.style.transform = "translateY(0) scale(1)";
+          });
+        });
+      });
+
+      // Add parallax effect to background
+      window.addEventListener("scroll", () => {
+        const scrolled = window.pageYOffset;
+        const parallax = document.querySelector(".citizen-portal");
+        const speed = scrolled * 0.2;
+
+        if (parallax) {
+          parallax.style.backgroundPosition = `center ${speed}px`;
+        }
+      });
+
+      // Enhanced button interactions
+      document.addEventListener("DOMContentLoaded", () => {
+        const reqButton = document.querySelector(".req-button");
+
+        if (reqButton) {
+          reqButton.addEventListener("mouseenter", function () {
+            this.style.transform = "translateY(-5px) scale(1.05)";
+          });
+
+          reqButton.addEventListener("mouseleave", function () {
+            this.style.transform = "translateY(0) scale(1)";
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
