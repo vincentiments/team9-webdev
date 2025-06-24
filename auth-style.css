@@ -1,0 +1,268 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 100vh;
+    background: linear-gradient(135deg, #0e7e5c 0%, #3b82f6 100%);
+}
+
+.auth-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100vh;
+}
+
+/* Left Side - Illustration */
+.auth-left {
+    background: linear-gradient(135deg, #1e40af 0%, #0e7e5c 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.illustration {
+    position: relative;
+    width: 400px;
+    height: 400px;
+}
+
+.admin-figure {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.person {
+    font-size: 8rem;
+    margin-bottom: 1rem;
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+}
+
+.laptop {
+    font-size: 4rem;
+    opacity: 0.8;
+}
+
+.floating-elements {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.element {
+    position: absolute;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 12px;
+    padding: 1rem;
+    font-size: 2rem;
+    animation: float 3s ease-in-out infinite;
+}
+
+.element-1 {
+    top: 20%;
+    left: 15%;
+    animation-delay: -1s;
+}
+
+.element-2 {
+    top: 25%;
+    right: 20%;
+    animation-delay: -2s;
+}
+
+.element-3 {
+    bottom: 30%;
+    left: 25%;
+    animation-delay: -0.5s;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-15px) rotate(5deg); }
+}
+
+/* Right Side - Form */
+.auth-right {
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.auth-form-container {
+    width: 100%;
+    max-width: 400px;
+}
+
+.portal-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #f1f5f9;
+    color: #64748b;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+}
+
+.badge-icon {
+    font-size: 1.2rem;
+}
+
+.form-header {
+    margin-bottom: 2rem;
+}
+
+.form-header h2 {
+    font-size: 2rem;
+    color: #1e293b;
+    margin-bottom: 1.5rem;
+}
+
+.auth-tabs {
+    display: flex;
+    gap: 1rem;
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    color: #64748b;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.tab-btn.active {
+    color: #1e40af;
+    border-bottom-color: #1e40af;
+}
+
+.tab-btn:hover {
+    color: #1e40af;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group {
+    position: relative;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+    background: #f8fafc;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    background: white;
+}
+
+.form-group input::placeholder {
+    color: #94a3b8;
+}
+
+.forgot-password {
+    text-align: right;
+    margin-top: -0.5rem;
+}
+
+.link {
+    color: #3b82f6;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+.btn {
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    text-align: center;
+    display: inline-block;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+}
+
+.auth-footer {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.back-link {
+    color: #64748b;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.back-link:hover {
+    color: #1e40af;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .auth-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .auth-left {
+        display: none;
+    }
+    
+    .auth-right {
+        padding: 1rem;
+    }
+    
+    .illustration {
+        width: 300px;
+        height: 300px;
+    }
+    
+    .person {
+        font-size: 6rem;
+    }
+    
+    .laptop {
+        font-size: 3rem;
+    }
+}
