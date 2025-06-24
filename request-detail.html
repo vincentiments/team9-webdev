@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Request Detail - E-Service Barangay Portal</title>
+    <link rel="stylesheet" href="dashboard-style.css" />
+  </head>
+  <body>
+    <div class="dashboard-container">
+      <!-- Header -->
+      <header class="dashboard-header">
+        <div class="header-content">
+          <div class="header-left">
+            <h1>E-Service Barangay Portal</h1>
+          </div>
+          <div class="header-right">
+            <nav class="header-nav">
+              <a href="homepage.html" class="nav-link">Home Page</a>
+              <a href="announcement.html" class="nav-link">Announcement</a>
+              <a href="#" class="nav-link">About Us</a>
+              <a href="admin-dashboard.html" class="nav-link">My Request</a>
+              <a href="index.html" class="nav-link">🚪 Log Out</a>
+            </nav>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main class="dashboard-main">
+        <div class="request-detail-container">
+          <div class="detail-header">
+            <div class="portal-title">
+              <h2>Requests</h2>
+              <div class="portal-badge">E-Service Barangay Portal</div>
+            </div>
+          </div>
+
+          <div class="request-review-card">
+            <div class="review-header">
+              <h3>Review a Request</h3>
+              <div class="review-info">
+                <div class="info-item">
+                  <strong>Personal Information</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="request-details">
+              <div class="detail-grid">
+                <div class="detail-item">
+                  <label>Name:</label>
+                  <span>Bini Sheena</span>
+                </div>
+                <div class="detail-item">
+                  <label>Date of Birth:</label>
+                  <span>June 1, 2000</span>
+                </div>
+                <div class="detail-item">
+                  <label>Age:</label>
+                  <span>25</span>
+                </div>
+                <div class="detail-item">
+                  <label>Address:</label>
+                  <span>87 Bukidnon St., Sampaloc, Manila</span>
+                </div>
+                <div class="detail-item">
+                  <label>Contact Information</label>
+                </div>
+                <div class="detail-item">
+                  <label>Phone Number:</label>
+                  <span>09424591000</span>
+                </div>
+                <div class="detail-item">
+                  <label>Email:</label>
+                  <span>juandelacruz@gmail.com</span>
+                </div>
+              </div>
+
+              <div class="request-type-section">
+                <h4>Request Type: Document</h4>
+                <div class="document-details">
+                  <p><strong>Document:</strong> Certificate of Indigency</p>
+                </div>
+              </div>
+
+              <div class="status-section">
+                <h4>Status:</h4>
+                <div class="status-options">
+                  <label class="status-option">
+                    <input
+                      type="radio"
+                      name="status"
+                      value="processing"
+                      checked
+                    />
+                    <span class="status-label">Processing</span>
+                  </label>
+                  <label class="status-option">
+                    <input type="radio" name="status" value="validating" />
+                    <span class="status-label">Validating</span>
+                  </label>
+                  <label class="status-option">
+                    <input type="radio" name="status" value="denied" />
+                    <span class="status-label">Request Denied</span>
+                  </label>
+                  <label class="status-option">
+                    <input type="radio" name="status" value="ready" />
+                    <span class="status-label">Ready For Pick Up</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="action-buttons">
+                <button class="btn btn-primary" onclick="submitReview()">
+                  Submit
+                </button>
+                <button
+                  class="btn btn-secondary"
+                  onclick="window.location.href='admin-dashboard.html'"
+                >
+                  Back to Dashboard
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- Footer -->
+      <footer class="dashboard-footer">
+        <p>DIT 2-5 | WebDev | Team 9</p>
+      </footer>
+    </div>
+
+    <style>
+      .request-detail-container {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .detail-header {
+        background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+        color: white;
+        padding: 2rem;
+        border-radius: 16px 16px 0 0;
+      }
+
+      .request-review-card {
+        background: white;
+        border-radius: 0 0 16px 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .review-header {
+        background: #f8fafc;
+        padding: 2rem;
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      .review-header h3 {
+        font-size: 1.5rem;
+        color: #1e293b;
+        margin-bottom: 1rem;
+      }
+
+      .request-details {
+        padding: 2rem;
+      }
+
+      .detail-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .detail-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .detail-item label {
+        font-weight: 600;
+        color: #374151;
+        font-size: 0.9rem;
+      }
+
+      .detail-item span {
+        color: #64748b;
+        padding: 0.75rem;
+        background: #f8fafc;
+        border-radius: 6px;
+        border: 1px solid #e2e8f0;
+      }
+
+      .request-type-section {
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        background: #f0f9ff;
+        border-radius: 8px;
+        border-left: 4px solid #3b82f6;
+      }
+
+      .request-type-section h4 {
+        color: #1e40af;
+        margin-bottom: 1rem;
+      }
+
+      .status-section {
+        margin-bottom: 2rem;
+      }
+
+      .status-section h4 {
+        color: #374151;
+        margin-bottom: 1rem;
+      }
+
+      .status-options {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+      }
+
+      .status-option {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+        padding: 1rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+
+      .status-option:hover {
+        border-color: #3b82f6;
+        background: #f0f9ff;
+      }
+
+      .status-option input[type="radio"] {
+        margin: 0;
+      }
+
+      .status-label {
+        font-weight: 500;
+        color: #374151;
+      }
+
+      .action-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        padding-top: 2rem;
+        border-top: 1px solid #e2e8f0;
+      }
+
+      .btn {
+        padding: 1rem 2rem;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: #1e40af;
+        border: 2px solid #1e40af;
+      }
+
+      .btn-secondary:hover {
+        background: #1e40af;
+        color: white;
+      }
+
+      @media (max-width: 768px) {
+        .detail-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .status-options {
+          grid-template-columns: 1fr;
+        }
+
+        .action-buttons {
+          flex-direction: column;
+        }
+      }
+    </style>
+
+    <script>
+      function submitReview() {
+        alert("Request status updated successfully!");
+        window.location.href = "admin-dashboard.html";
+      }
+    </script>
+  </body>
+</html>
