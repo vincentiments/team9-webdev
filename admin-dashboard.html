@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - E-Service Barangay Portal</title>
+    <link rel="stylesheet" href="dashboard-style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-content">
+                <div class="header-left">
+                    <h1>E-Service Barangay Portal</h1>
+                </div>
+                <div class="header-right">
+                    <nav class="header-nav">
+                        <a href="admin-dashboard.html" class="nav-link">Dashboard</a>
+                        <a href="announcement.html" class="nav-link">Announcements</a>
+                        <a href="about_us.html" class="nav-link">About Us</a>
+                        <a href="index.html" class="nav-link">🚪 Log Out</a>
+                    </nav>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <div class="portal-header">
+                <div class="portal-title">
+                    <h2>Admin Dashboard</h2>
+                    <div class="portal-badge">E-Service Barangay Portal</div>
+                </div>
+                <div class="service-section">
+                    <h3>E - Barangay Services</h3>
+                    <p>Manage Citizen Requests</p>
+                </div>
+            </div>
+
+            <div class="admin-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">📋</div>
+                    <div class="stat-info">
+                        <h3 id="totalRequests">0</h3>
+                        <p>Total Requests</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⏳</div>
+                    <div class="stat-info">
+                        <h3 id="pendingRequests">0</h3>
+                        <p>Pending</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-info">
+                        <h3 id="completedRequests">0</h3>
+                        <p>Completed</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="requests-grid" id="requestsGrid">
+                <!-- Requests will be loaded here -->
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="dashboard-footer">
+            <p>DIT 2-5 | WebDev | Team 9</p>
+        </footer>
+    </div>
+
+    <style>
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            opacity: 0.8;
+        }
+
+        .stat-info h3 {
+            font-size: 2rem;
+            color: #1e40af;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-info p {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .request-ticket {
+            cursor: pointer;
+        }
+
+        .request-ticket:hover {
+            transform: translateY(-3px);
+        }
+    </style>
+
+    <script>
+        function loadAdminRequests() {
+            // Load from localStorage and sample data
+            const userRequests = JSON.parse(localStorage.getItem('userRequests') || '[]');
+            
+            // Sample admin requests
+            const sampleRequests = [
+                {
+                    refNo: '202400001',
+                    firstName: 'Bini',
+                    lastName: 'Sheena',
+                    requestType: 'Document',
+                    documents: ['Barangay Clearance'],
+                    dateSubmitted: '12/05/2024',
+                    status: 'New'
+                },
+                {
+                    refNo: '202400002',
+                    firstName: 'Bini',
+                    lastName: 'Colet',
+                    requestType: 'Document',
+                    documents: ['Certificate of Indigency'],
+                    dateSubmitted: '12/05/2024',
+                    status: 'New'
+                },
+                {
+                    refNo: '202400003',
+                    firstName: 'Bini',
+                    lastName: 'Mikha',
+                    requestType: 'Document',
+                    documents: ['Business Permit'],
+                    dateSubmitted: '12/05/2024',
+                    status: 'New'
+                }
+            ];
+            
+            const allRequests = [...sampleRequests, ...userRequests];
+            
+            // Update stats
+            document.getElementById('totalRequests').textContent = allRequests.length;
+            document.getElementById('pendingRequests').textContent = allRequests.filter(r => r.status === 'New' || r.status === 'Processing').length;
+            document.getElementById('completedRequests').textContent = allRequests.filter(r => r.status === 'Ready' || r.status === 'Completed').length;
+            
+            // Render requests
+            const requestsGrid = document.getElementById('requestsGrid');
+            requestsGrid.innerHTML = allRequests.map(request => `
+                <div class="request-ticket" onclick="viewRequest('${request.refNo}')">
+                    <div class="ticket-header">
+                        <span class="ticket-id">Ref No: ${request.refNo}</span>
+                        <span class="ticket-status status-new">${request.status}</span>
+                    </div>
+                    <div class="ticket-content">
+                        <h4>Name: ${request.firstName} ${request.lastName}</h4>
+                        <p><strong>Type of Request:</strong> ${request.requestType}</p>
+                        <p><strong>Document:</strong> ${request.documents.join(', ')}</p>
+                        <p><strong>Date of Request:</strong> ${request.dateSubmitted}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function viewRequest(refNo) {
+            // Store selected request for detail view
+            localStorage.setItem('selectedRequestRef', refNo);
+            window.location.href = 'request-detail.html';
+        }
+        
+        // Load requests when page loads
+        document.addEventListener('DOMContentLoaded', loadAdminRequests);
+    </script>
+</body>
+</html>
