@@ -611,7 +611,7 @@ img {
     padding: none;
     color: rgb(7, 77, 71);
     position: relative;
-    top: 70px;
+    top: 90px;
     transition: all 0.5s ease;
     animation: fadeInUp 1.2s ease-out 0.3s both;
 }
@@ -620,6 +620,81 @@ img {
     transform: scale(1.05);
     text-shadow: 0 10px 20px rgba(7, 77, 71, 0.3);
 }
+
+/*FAQ*/
+.accordion {
+    margin: 60px auto;
+    width: 800px;
+}
+
+.accordion li {
+    list-style: none;
+    width: 100%;
+    margin: 20px;
+    padding: 10px;
+    background-color: rgb(77, 130, 158);
+    box-shadow: 6px 6px 10px -1px rgba(0, 0, 0, 0.15),
+                -6px -6px 10px -1px rgba(255, 255, 255, 0.7);
+}
+
+.accordion li label {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    color: white;
+}
+
+label::before {
+    content: '+';
+    margin-right: 10px;
+    font-size: 30px;
+    font-weight: 600;
+}
+
+input[type=radio]{
+    display: none;
+}
+
+.accordion .faq-content {
+    color: #fbfbfb;
+    padding: 0 10px;
+    line-height: 30px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s, padding 0.5s;
+}
+
+.accordion input[type=radio]:checked + label + .faq-content {
+    max-height: 400px;
+    padding: 10px 40px 20px;
+}
+
+.accordion input[type=radio]:checked + label::before {
+    content: '-';
+}
+
+.faq-slider-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+    padding: 20px;
+}
+
+.accordion {
+    flex: 1;
+    max-width: 50%;
+}
+
+.slider-container {
+    flex: 1;
+    max-width: 50%;
+    margin-top: 80px;
+}
+
 
 
 @media (max-width: 768px) {
