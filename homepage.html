@@ -21,7 +21,7 @@
             rgba(0, 0, 0, 0.401),
             rgba(0, 0, 0, 0.503)
           ),
-          url(bg1.png);
+          url(brgy.jpg);
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat, repeat;
@@ -241,23 +241,46 @@
         background: #2a2929;
       }
 
-      .req-button {
+      .button-group {
+        display: flex;
+        gap: 1rem; /* Adjust space between buttons */
+        justify-content: center;
+        margin-bottom: 3rem; /* Keep existing margin */
+        animation: fadeInUp 1s ease-out 0.9s both;
+      }
+
+      .req-button,
+      .claim-button {
+        /* Apply common styles to both button types */
         color: white;
-        background-color: #0e7e5c;
         padding: 15px 30px;
         font-size: 1rem;
         border-radius: 6px;
         border: none;
         cursor: pointer;
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 0 4px 15px rgba(14, 126, 92, 0.3);
         position: relative;
         overflow: hidden;
-        animation: fadeInUp 1s ease-out 0.9s both;
+        min-width: 200px; /* Set a minimum width for both buttons */
+        text-align: center;
+        display: inline-flex; /* Use inline-flex to center content vertically and horizontally */
+        align-items: center;
+        justify-content: center;
+      }
+
+      .req-button {
+        background-color: #0e7e5c;
+        box-shadow: 0 4px 15px rgba(14, 126, 92, 0.3);
+      }
+
+      .claim-button {
+        background-color: #1266ae; /* Different color for the new button */
+        box-shadow: 0 4px 15px rgba(18, 102, 174, 0.3);
       }
 
       /* Ripple effect for button */
-      .req-button::before {
+      .req-button::before,
+      .claim-button::before {
         content: "";
         position: absolute;
         top: 50%;
@@ -270,7 +293,8 @@
         transition: width 0.6s, height 0.6s;
       }
 
-      .req-button:hover::before {
+      .req-button:hover::before,
+      .claim-button:hover::before {
         width: 300px;
         height: 300px;
       }
@@ -281,7 +305,14 @@
         box-shadow: 0 8px 30px rgba(14, 126, 92, 0.4);
       }
 
-      .req-button:active {
+      .claim-button:hover {
+        background-color: #0d5392; /* Darker blue on hover */
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 0 8px 30px rgba(18, 102, 174, 0.4);
+      }
+
+      .req-button:active,
+      .claim-button:active {
         transform: translateY(-3px) scale(1.02);
       }
 
@@ -396,9 +427,17 @@
           font-size: 0.9rem;
         }
 
-        .req-button {
+        .button-group {
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+
+        .req-button,
+        .claim-button {
           padding: 12px 25px;
           font-size: 0.9rem;
+          min-width: unset; /* Remove min-width on mobile */
+          width: 100%; /* Make buttons full width on mobile */
         }
 
         .emergency-grid {
@@ -457,7 +496,6 @@
     </style>
   </head>
   <body>
-    <!-- Loading overlay -->
     <div class="loading-overlay">
       <div class="loading-spinner"></div>
     </div>
@@ -484,45 +522,85 @@
         <div class="container">
           <h1>BARANGAY CITIZEN PORTAL</h1>
           <p>AN ONLINE PORTAL TO REQUEST DOCUMENTS</p>
-          <a href="request-form.html"
-            ><button class="req-button">REQUEST A SERVICE</button></a
-          >
+          <div class="button-group">
+            <a href="request-form.html"
+              ><button class="req-button">REQUEST A SERVICE</button></a
+            >
+            <a href="appointment.html"
+              ><button class="claim-button">CLAIM YOUR DOCUMENTS</button></a
+            >
+          </div>
         </div>
       </section>
 
-      <!-- Emergency Hotlines Section -->
       <section class="emergency-section scroll-reveal">
         <h2>EMERGENCY HOTLINES</h2>
         <div class="emergency-grid">
           <div class="emergency-card">
             <h3>Police & General Emergencies</h3>
-            <p><span class="emergency-number">911</span> - Nationwide Emergency Hotline</p>
-            <p><span class="emergency-number">117</span> - Philippine National Police (PNP)</p>
-            <p><span class="emergency-number">(+632) 8723-0401</span> - Manila Police District</p>
+            <p>
+              <span class="emergency-number">911</span> - Nationwide Emergency
+              Hotline
+            </p>
+            <p>
+              <span class="emergency-number">117</span> - Philippine National
+              Police (PNP)
+            </p>
+            <p>
+              <span class="emergency-number">(+632) 8723-0401</span> - Manila
+              Police District
+            </p>
           </div>
-          
+
           <div class="emergency-card">
             <h3>Fire & Rescue</h3>
-            <p><span class="emergency-number">911</span> - Nationwide Emergency</p>
-            <p><span class="emergency-number">(+632) 8426-0219</span> - Manila Fire Department</p>
-            <p><span class="emergency-number">16016</span> - Bureau of Fire Protection</p>
+            <p>
+              <span class="emergency-number">911</span> - Nationwide Emergency
+            </p>
+            <p>
+              <span class="emergency-number">(+632) 8426-0219</span> - Manila
+              Fire Department
+            </p>
+            <p>
+              <span class="emergency-number">16016</span> - Bureau of Fire
+              Protection
+            </p>
           </div>
-          
+
           <div class="emergency-card">
             <h3>Medical Emergencies</h3>
-            <p><span class="emergency-number">911</span> - Nationwide Emergency</p>
-            <p><span class="emergency-number">(+632) 8711-1001</span> - Philippine General Hospital</p>
-            <p><span class="emergency-number">155</span> - DOH Health Emergency Line</p>
+            <p>
+              <span class="emergency-number">911</span> - Nationwide Emergency
+            </p>
+            <p>
+              <span class="emergency-number">(+632) 8711-1001</span> -
+              Philippine General Hospital
+            </p>
+            <p>
+              <span class="emergency-number">155</span> - DOH Health Emergency
+              Line
+            </p>
           </div>
-          
+
           <div class="emergency-card">
             <h3>Other Important Numbers</h3>
-            <p><span class="emergency-number">136</span> - MMDA Traffic Hotline</p>
-            <p><span class="emergency-number">(+632) 8527-0000</span> - Manila City Hall</p>
-            <p><span class="emergency-number">(+632) 8524-1726</span> - Red Cross Manila</p>
+            <p>
+              <span class="emergency-number">136</span> - MMDA Traffic Hotline
+            </p>
+            <p>
+              <span class="emergency-number">(+632) 8527-0000</span> - Manila
+              City Hall
+            </p>
+            <p>
+              <span class="emergency-number">(+632) 8524-1726</span> - Red Cross
+              Manila
+            </p>
           </div>
         </div>
-        <p class="emergency-note">In case of emergency, please remain calm and provide clear information to the operator.</p>
+        <p class="emergency-note">
+          In case of emergency, please remain calm and provide clear information
+          to the operator.
+        </p>
       </section>
     </div>
 
@@ -553,7 +631,9 @@
         revealElements.forEach((el) => observer.observe(el));
 
         // Add ripple effect to buttons
-        const buttons = document.querySelectorAll(".req-button, .login-btn");
+        const buttons = document.querySelectorAll(
+          ".req-button, .claim-button, .login-btn"
+        ); // Added .claim-button here
         buttons.forEach((button) => {
           button.addEventListener("click", function (e) {
             const ripple = document.createElement("span");
@@ -601,17 +681,19 @@
 
       // Enhanced button interactions
       document.addEventListener("DOMContentLoaded", () => {
-        const reqButton = document.querySelector(".req-button");
+        const heroButtons = document.querySelectorAll(
+          ".req-button, .claim-button"
+        ); // Select both types of hero buttons
 
-        if (reqButton) {
-          reqButton.addEventListener("mouseenter", function () {
+        heroButtons.forEach((button) => {
+          button.addEventListener("mouseenter", function () {
             this.style.transform = "translateY(-5px) scale(1.05)";
           });
 
-          reqButton.addEventListener("mouseleave", function () {
+          button.addEventListener("mouseleave", function () {
             this.style.transform = "translateY(0) scale(1)";
           });
-        }
+        });
       });
     </script>
   </body>
